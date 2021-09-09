@@ -1,5 +1,5 @@
 from django.contrib import admin
-from resumeapp.models import Project, Company, Profile
+from resumeapp.models import Project, Company, Profile, Employer
 from django.contrib.auth.admin import UserAdmin
 # Register your models here.
 
@@ -18,3 +18,8 @@ class ProfileAdmin(admin.ModelAdmin):
     list_display = ['language', 'address', 'hobbies']
 
 admin.site.register(Profile, ProfileAdmin)
+
+class EmployerAdmin(admin.ModelAdmin):
+    list_display = ['id','name', 'company_name']
+
+admin.site.register(Employer, EmployerAdmin)

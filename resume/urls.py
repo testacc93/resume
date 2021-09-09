@@ -38,6 +38,8 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    # path('employer', include('resumeapp.urls')),
+
     path('', include('resumeapp.urls')),
 ]
 

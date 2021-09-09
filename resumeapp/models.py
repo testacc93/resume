@@ -31,3 +31,10 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.language
+
+class Employer(models.Model):
+    name = models.CharField(max_length=100)
+    company_name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
