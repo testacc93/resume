@@ -51,6 +51,21 @@ class ContactAPIView(generics.GenericAPIView):
     serializer_class = ContactSerializer
     permission_classes = []
     def post(self, request):
+        data = request.data
         print("ojf", request.data)
-        serializer = self.serializer_class(data=request.data)
-        return Response({'message':'success'})
+        message = data['message']
+        email = data['email']
+        if len(message) < 10:
+            if '@' not in email and '.com' not in email:
+                return Response({'message':'doesnt look like a valid email'})
+            return Response({'message':'Please describe concern in detail'})
+
+        if len(message) in range(10, 50):
+            if '@' not in email and '.com' not in email:
+                return Response({'message':'doesnt look like a valid email'})
+            return Response({'message':'good try!, more details would be of help to me'})
+        else:
+            if '@' not in email and '.com' not in email:
+                return Response({'message':'doesnt look like a valid email'})
+            return Response({'message':'Okay! I will look into it'})
+        
