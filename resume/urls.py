@@ -27,9 +27,7 @@ schema_view = get_schema_view(
     openapi.Info(
         title="Ankur resume",
         default_version='v1',
-        description="My API portfolio",
-        terms_of_service="https://www.google.com/policies/terms/",
-        license=openapi.License(name="BSD License"),
+        description="My portfolio API where one can test different methods like GET, POST, DELETE. With time, I will also add other operations and not only that, integration with 3rd party APIs will be added soon. For time being, I have removed authentication, authorisation."
     ),
     public=True,
     permission_classes=(permissions.AllowAny,),

@@ -14,11 +14,11 @@ from rest_framework import generics,status, exceptions
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, DestroyAPIView
 
 
-@swagger_auto_schema(tags=['Work experience API'])
 class ExperienceAPIView(APIView):
     serializer_class = CompanySerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = []
 
+    @swagger_auto_schema(tags=['Work experience'], operation_description='List outs my work experience')
     def get(self, request):
         qs = models.Company.objects.all()
         # breakpoint()
@@ -28,10 +28,10 @@ class ExperienceAPIView(APIView):
         return HttpResponse(json_data, content_type='application/json')
 
 
-@swagger_auto_schema(tags=['Education API'])
+@swagger_auto_schema(tags=['Education'])
 class ProfileAPIView(APIView):
     serializer_class = ProfileSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = []
     def get(self, request):
         qs = models.Profile.objects.all()
         ser = self.serializer_class(qs, many=True)
@@ -39,10 +39,11 @@ class ProfileAPIView(APIView):
         return HttpResponse(json_data, content_type='application/json')
 
 
-@swagger_auto_schema(tags=['Projects API'])
 class ProjectAPIView(APIView):
     serializer_class = ProjectSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = []
+
+    @swagger_auto_schema(tags=['Projects'], operation_description='List out some of my projects including company and personal')
     def get(self, request):
         qs = models.Project.objects.all()
         ser = self.serializer_class(qs, many=True)
@@ -79,21 +80,25 @@ class EmployerAPIView(generics.GenericAPIView):
     permission_classes = []
     authentication_classes = []
 
-    @swagger_auto_schema(tags=['Generate interested employer'])
+    @swagger_auto_schema(tags=['Generate interested employer'], operation_description='Creates a new employer who is interested in my profile')
     def post(self, request, **employer):
         data = request.data
+        if len(str(data['name'])) < 1:
+            return Response({'message':'Please enter your name'})
+        if len(data['company_name']) < 1:
+            return Response({'message':'Please enter your company name'})        
         models.Employer.objects.create(name=data['name'], company_name=data['company_name'])
         id = models.Employer.objects.filter(name=data['name']).values('id')
         id_list = []
         for item in id:
             id_list.append(item)
-        return Response({'message':'Thank you for testing post method. Incase you wish to test delete method, id: {}'.format(item['id'])}, status=201)
+        return Response({'message':'Thank you for testing post method. Incase you wish to test delete method, id: {}'.format(item['id']), 'id':item['id']}, status=201)
 
 
 class IntriEmployerAPIView(APIView):
     serializer_class = IntriEmployeeSerializer
 
-    @swagger_auto_schema(tags=['List all interested employers'])
+    @swagger_auto_schema(tags=['List all interested employers'], operation_description='List out all the employers who are interested in the profile')
     def get(self, request):
         qs = models.Employer.objects.all()
         ser = self.serializer_class(qs, many=True)
@@ -103,7 +108,7 @@ class IntriEmployerAPIView(APIView):
 
 class DestroyEmployerAPIView(DestroyAPIView):
     
-    @swagger_auto_schema(tags=['Delete interested employer'])
+    @swagger_auto_schema(tags=['Delete interested employer'], operation_description='In order to check delete method')
     def delete(self, request, id):
         obj = models.Employer.objects.filter(id=id)
         if len(obj)==0:
