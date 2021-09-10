@@ -14,7 +14,6 @@ from rest_framework import generics,status, exceptions
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, DestroyAPIView
 
 
-
 @swagger_auto_schema(tags=['Work experience API'])
 class ExperienceAPIView(APIView):
     serializer_class = CompanySerializer
@@ -22,8 +21,10 @@ class ExperienceAPIView(APIView):
 
     def get(self, request):
         qs = models.Company.objects.all()
+        # breakpoint()
         ser = self.serializer_class(qs, many=True)
-        json_data =  JSONRenderer().render(ser.data)       
+        json_data =  JSONRenderer().render(ser.data) 
+        
         return HttpResponse(json_data, content_type='application/json')
 
 
@@ -45,7 +46,7 @@ class ProjectAPIView(APIView):
     def get(self, request):
         qs = models.Project.objects.all()
         ser = self.serializer_class(qs, many=True)
-        json_data =  JSONRenderer().render(ser.data)      
+        json_data =  JSONRenderer().render(ser.data)    
         return HttpResponse(json_data, content_type='application/json')
 
 

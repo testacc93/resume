@@ -5,7 +5,7 @@ from resumeapp.models import Company, Employer, Project, Profile
 class CompanySerializer(serializers.ModelSerializer):
     class Meta:
         model = Company
-        fields = ['name', 'start_date', 'end_date', 'projects']
+        fields = ['name', 'start_date', 'end_date']
 
 
 class ProfileSerializer(serializers.ModelSerializer):
