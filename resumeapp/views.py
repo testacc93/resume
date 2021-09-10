@@ -43,7 +43,7 @@ class ProjectAPIView(APIView):
     serializer_class = ProjectSerializer
     permission_classes = []
 
-    @swagger_auto_schema(tags=['Projects'], operation_description='List out some of my projects including company and personal')
+    @swagger_auto_schema(tags=['Projects'], operation_description='Lists out some of my projects including company and personal')
     def get(self, request):
         qs = models.Project.objects.all()
         ser = self.serializer_class(qs, many=True)
